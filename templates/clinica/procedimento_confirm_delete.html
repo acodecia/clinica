@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmar Exclusão{% endblock %}
+
+{% block content %}
+    <div class="card border-danger">
+        <div class="card-header bg-danger text-white">
+            <h4>Confirmar Exclusão</h4>
+        </div>
+        <div class="card-body">
+            <p>Você tem certeza que deseja excluir o procedimento <strong>"{{ object.nome }}"</strong>?</p>
+            <p class="text-muted">Esta ação não poderá ser desfeita.</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Sim, tenho certeza</button>
+                <a href="{% url 'procedimento_list' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

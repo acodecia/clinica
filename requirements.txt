@@ -1,0 +1,64 @@
+# Django e dependências principais
+Django==4.2.7
+Pillow==10.1.0
+
+# Banco de dados
+psycopg2-binary==2.9.7  # Para PostgreSQL (opcional)
+
+# Formulários e validação
+django-crispy-forms==2.1
+crispy-bootstrap5==0.7
+
+# APIs e serialização
+djangorestframework==3.14.0
+
+# Autenticação e autorização
+django-allauth==0.57.0
+
+# Relatórios e exportação
+reportlab==4.0.7
+openpyxl==3.1.2
+xlsxwriter==3.1.9
+
+# Imagens e mídia
+django-imagekit==5.0.0
+
+# Utilitários de data/hora
+python-dateutil==2.8.2
+
+# Validação de documentos brasileiros
+python-cpf==1.0.1
+
+# Formatação de valores
+babel==2.13.1
+
+# Desenvolvimento e debug
+django-debug-toolbar==4.2.0
+django-extensions==3.2.3
+
+# Servidor WSGI para produção
+gunicorn==21.2.0
+
+# Cache
+redis==5.0.1
+django-redis==5.4.0
+
+# Monitoramento e logs
+sentry-sdk==1.38.0
+
+# Testes
+pytest==7.4.3
+pytest-django==4.7.0
+factory-boy==3.3.0
+
+# Qualidade de código
+flake8==6.1.0
+black==23.11.0
+isort==5.12.0
+
+# Segurança
+django-cors-headers==4.3.1
+django-ratelimit==4.1.0
+
+# Backup e migrações
+django-dbbackup==4.0.2

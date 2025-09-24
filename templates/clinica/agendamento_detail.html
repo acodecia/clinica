@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalhes do Agendamento{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Detalhes do Agendamento</h1>
+        <div>
+            <a href="{% url 'agendamento_update' agendamento.pk %}" class="btn btn-warning">Editar</a>
+            <a href="{% url 'agendamento_list' %}" class="btn btn-secondary">Voltar para a Lista</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4>Agendamento para: <a href="{% url 'paciente_detail' agendamento.paciente.pk %}">{{ agendamento.paciente.nome }}</a></h4>
+            <small class="text-muted">{{ agendamento.data_hora|date:"l, d \d\e F \d\e Y, \à\s H:i" }}</small>
+        </div>
+        <div class="card-body">
+
+            <h5 class="card-title">Procedimentos Agendados</h5>
+            
+            <ul class="list-group list-group-flush mb-3">
+                {% for p in agendamento.procedimentos.all %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>{{ p.nome }}</span>
+                        <span class="text-muted">R$ {{ p.preco|floatformat:2 }}</span>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item text-muted">Nenhum procedimento foi associado a este agendamento.</li>
+                {% endfor %}
+
+                <li class="list-group-item d-flex justify-content-between align-items-center active">
+                    <strong>VALOR TOTAL</strong>
+                    <strong>R$ {{ agendamento.valor_total|floatformat:2 }}</strong>
+                </li>
+            </ul>
+
+            <p class="card-text">
+                <strong>Status do Agendamento:</strong>
+                <span class="badge 
+                    {% if agendamento.status == 'realizado' %}bg-success
+                    {% elif agendamento.status == 'cancelado' %}bg-danger
+                    {% else %}bg-primary{% endif %}">
+                    {{ agendamento.get_status_display }}
+                </span>
+            </p>
+            
+            {% if agendamento.observacoes %}
+                <hr>
+                <p><strong>Observações Adicionais:</strong></p>
+                <p class="mb-0">{{ agendamento.observacoes|linebreaksbr }}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalhes de {{ paciente.nome }}{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Detalhes do Paciente</h1>
+        <div>
+            <a href="{% url 'paciente_update' paciente.pk %}" class="btn btn-warning">Editar</a>
+            <a href="{% url 'paciente_list' %}" class="btn btn-secondary">Voltar para a Lista</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">{{ paciente.nome }}</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>E-mail:</strong> {{ paciente.email }}</p>
+                    <p><strong>Telefone:</strong> {{ paciente.telefone }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Data de Nascimento:</strong> {{ paciente.data_nascimento|date:"d/m/Y" }}</p>
+                    <p><strong>Cliente desde:</strong> {{ paciente.data_cadastro|date:"d/m/Y" }}</p>
+                </div>
+            </div>
+            {% if paciente.endereco %}
+                <hr>
+                <p><strong>Endereço:</strong><br>{{ paciente.endereco|linebreaksbr }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <h3 class="mt-5">Histórico de Agendamentos</h3>
+    
+    {% with agendamentos=paciente.agendamentos.all %}
+        {% if agendamentos %}
+            <ul class="list-group">
+                {% for agendamento in agendamentos %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ agendamento.procedimento.nome }}</strong>
+                            <small class="d-block text-muted">{{ agendamento.data_hora|date:"d/m/Y às H:i" }}</small>
+                        </div>
+                        <span class="badge 
+                            {% if agendamento.status == 'realizado' %}bg-success
+                            {% elif agendamento.status == 'cancelado' %}bg-danger
+                            {% else %}bg-info{% endif %} rounded-pill">
+                            {{ agendamento.get_status_display }}
+                        </span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="alert alert-info">
+                Este paciente ainda não possui agendamentos.
+            </div>
+        {% endif %}
+    {% endwith %}
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Agendamentos{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Lista de Agendamentos</h1>
+        <a href="{% url 'agendamento_create' %}" class="btn btn-primary">Novo Agendamento</a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Paciente</th>
+                            <th>Procedimentos</th>
+                            <th>Data e Hora</th>
+                            <th>Status</th>
+                            <th class="text-end">Valor Total</th>
+                            <th class="text-end">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for agendamento in agendamentos %}
+                            <tr>
+                                <td>{{ agendamento.paciente.nome }}</td>
+                                <td>
+                                    <ul class="list-unstyled mb-0">
+                                    {% for p in agendamento.procedimentos.all %}
+                                        <li>{{ p.nome }}</li>
+                                    {% empty %}
+                                        <li class="text-muted">Nenhum procedimento associado.</li>
+                                    {% endfor %}
+                                    </ul>
+                                </td>
+                                <td>{{ agendamento.data_hora|date:"d/m/Y H:i" }}</td>
+                                <td>
+                                    <span class="badge 
+                                        {% if agendamento.status == 'realizado' %}bg-success
+                                        {% elif agendamento.status == 'cancelado' %}bg-danger
+                                        {% else %}bg-primary{% endif %}">
+                                        {{ agendamento.get_status_display }}
+                                    </span>
+                                </td>
+                                <td class="text-end">
+                                    R$ {{ agendamento.valor_total|floatformat:2 }}
+                                </td>
+                                <td class="text-end">
+                                    <a href="{% url 'agendamento_detail' agendamento.pk %}" class="btn btn-sm btn-info">Detalhes</a>
+                                    <a href="{% url 'agendamento_update' agendamento.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center">Nenhum agendamento encontrado.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

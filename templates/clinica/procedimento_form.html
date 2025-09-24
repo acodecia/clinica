@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Formulário de Procedimento{% endblock %}
+
+{% block content %}
+    <h1>{% if form.instance.pk %}Editar Procedimento{% else %}Novo Procedimento{% endif %}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="card p-4">
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success mt-3">Salvar</button>
+            <a href="{% url 'procedimento_list' %}" class="btn btn-secondary mt-2">Cancelar</a>
+        </div>
+    </form>
+{% endblock %}

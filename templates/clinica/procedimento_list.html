@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Procedimentos{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Procedimentos</h1>
+        <a href="{% url 'procedimento_create' %}" class="btn btn-primary">Adicionar Procedimento</a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for procedimento in procedimentos %}
+                        <tr>
+                            <td>{{ procedimento.nome }}</td>
+                            <td>R$ {{ procedimento.preco|floatformat:2 }}</td>
+                            <td class="text-end">
+                                <a href="{% url 'procedimento_update' procedimento.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                                <a href="{% url 'procedimento_delete' procedimento.pk %}" class="btn btn-sm btn-danger">Excluir</a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-center">Nenhum procedimento cadastrado.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
